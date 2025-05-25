@@ -1,0 +1,27 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #f4f7f6;
+    --container-bg: #ffffff;
+    --text-color: #333;
+    --border-color: #dddddd;
+    --task-item-bg: #e8f6fd;
+    --completed-task-color: #7f8c8d;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    color: var(--text-color);
+}
+
+#app-container {
+    background-color: var(--container-bg);
+
+}
