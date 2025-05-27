@@ -10,13 +10,15 @@
 <body>
     <div id="app-container">
         <header>
-            <h1>To-do...To-do App</h1>
+            <h1>To-do...To-do</h1>
         </header>
         <main>
             <section id="input-area">
-                <label for="task-input">New Task:</label>
-                <input type="text" id="task-input" placeholder="Add a new task..." required>
-                <button type="submit">Add Task</button>
+                <form id="new-task-form">
+                    <label for="task-input">New Task:</label>
+                    <input type="text" id="task-input" placeholder="Add a new task..." required>
+                    <button type="submit">Add Task</button>
+                </form>
             </section>
             <section id="task-list-area">
                 <h2>Tasks</h2>
