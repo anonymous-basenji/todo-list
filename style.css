@@ -116,3 +116,22 @@ header h1 {
     font-size: 0.9em;
     margin-left: 9px;
 }
+
+.task-item .actions .complete-btn {
+    color: var(--secondary-color);
+}
+
+.task-item .actions .delete-btn {
+    color: #e74c3c;
+}
+
+.task-item .actions .delete-btn:hover {
+    color: #c0392b;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #7f8c8d;
+}
