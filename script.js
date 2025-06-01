@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskInput = document.getElementById('task-input');
     const taskList = document.getElementById('task-list');
 
-    let tasks = [];
+    let tasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
+
+    tasks.forEach(task => renderTaskDOM(task));
 
     taskForm.addEventListener('submit', function(event) {
         event.preventDefault();
@@ -22,13 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         tasks.push(newTask);
-        renderTask(newTask);
+        renderTaskDOM(newTask);
+        saveTasksToLocalStorage();
 
         taskInput.value = "";
         taskInput.focus();
     });
 
-    function renderTask(task) {
+    function renderTaskDOM(task) {
         const listItem = document.createElement('li');
         listItem.classList.add('task-item');
         listItem.setAttribute('data-id', task.id);
@@ -41,18 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
         taskTextSpan.textContent = task.text;
 
         const actionsDiv = document.createElement('div');
-        taskTextSpan.textContent = task.text;
+        actionsDiv.classList.add('actions');
 
         const completeButton = document.createElement('button');
         completeButton.classList.add('complete-btn');
 
         completeButton.textContent = task.completed ? 'Undo' : 'Complete';
-        completeButton.addEventListener('click', () => toggleComplete(task.id));
+        completeButton.addEventListener('click', () => toggleCompleteStatus(task.id));
 
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('delete-btn');
         deleteButton.textContent = 'Delete';
-        deleteButton.addEventListener('click', () => deleteTask(task.id));
+        deleteButton.addEventListener('click', () => deleteTaskItem(task.id));
 
         actionsDiv.appendChild(completeButton);
         actionsDiv.appendChild(deleteButton);
@@ -63,11 +66,40 @@ document.addEventListener('DOMContentLoaded', () => {
         taskList.appendChild(listItem);
     }
 
-    function toggleComplete(taskId) {
+    function toggleCompleteStatus(taskId) {
         console.log("Toggling complete for taskID:", taskId);
+        const taskIndex = tasks.findIndex(task => task.id === taskId);
+
+        if(taskIndex > -1) {
+            tasks[taskIndex].completed = !tasks[taskIndex].completed;
+
+            const listItem = taskList.querySelector(`.task-item[data-id="${taskId}"]`);
+
+            if(listItem) {
+                listItem.classList.toggle('completed');
+
+                const completeBtn = listItem.querySelector('.complete-btn');
+                if(completeBtn) {
+                    completeBtn.textContent = tasks[taskIndex].completed ? 'Undo' : 'Complete';
+                }
+                saveTasksToLocalStorage();
+            }
+        }
     }
 
-    function deleteTask(taskId) {
+    function deleteTaskItem(taskId) {
         console.log("Deleting task ID:", taskId);
+
+        tasks = tasks.filter(task => task.id != taskId);
+
+        const listItem = taskList.querySelector(`.task-item[data-id="${taskId}"]`);
+        if(listItem) {
+            taskList.removeChild(listItem);
+        }
+        saveTasksToLocalStorage();
+    }
+
+    function saveTasksToLocalStorage() {
+        localStorage.setItem('todoTasks', JSON.stringify(tasks));
     }
 })
